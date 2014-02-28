@@ -5,7 +5,7 @@
  */
 
 // Arduinoが接続されているデバイスポート
-var DEV_PORT = "COM1";
+var DEV_PORT = "COM3";
 
 // 縦(アノード)
 var COL1 =  9; // 13
@@ -61,8 +61,8 @@ function leave(id){
 
 function setup(){
     var arduino = document.arduino;
+    arduino.open(DEV_PORT);
     with(arduino){
-        open(DEV_PORT);
         for (var i = 0; i < 8; i++) {
             pinMode(COLUMNS[i], OUTPUT);
             digitalWrite(COLUMNS[i], LOW);
