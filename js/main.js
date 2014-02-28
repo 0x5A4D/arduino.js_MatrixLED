@@ -1,7 +1,11 @@
-// Arduinoが接続されているデバイスポート
-var DEV_PORT = "COM3";
+/*
+ * Copyright (c) 2014 0x5A4D All Rights Reserved.
+ * Released under The MIT License.
+ * http://opensource.org/licenses/MIT
+ */
 
-//----------------------------
+// Arduinoが接続されているデバイスポート
+var DEV_PORT = "COM1";
 
 // 縦(アノード)
 var COL1 =  9; // 13
@@ -32,22 +36,6 @@ var INPUT  = false;
 var HIGH = 1;
 var LOW = 0;
 
-function setup(){
-    var arduino = document.arduino;
-    with(arduino){
-        open(DEV_PORT);
-        for (var i = 0; i < 8; i++) {
-            pinMode(COLUMNS[i], OUTPUT);
-            digitalWrite(COLUMNS[i], LOW);
-        }
-        for (var i = 0; i < 8; i++) {
-            pinMode(ROWS[i], OUTPUT);
-            digitalWrite(ROWS[i], HIGH);  
-        }
-    }
-    return arduino;
-}
-
 function enter(id){
     var row = id[1];
     var col = id[3];
@@ -71,12 +59,31 @@ function leave(id){
     arduino.digitalWrite(ROWS[row], HIGH);
 }
 
+function setup(){
+    var arduino = document.arduino;
+    with(arduino){
+        open(DEV_PORT);
+        for (var i = 0; i < 8; i++) {
+            pinMode(COLUMNS[i], OUTPUT);
+            digitalWrite(COLUMNS[i], LOW);
+        }
+        for (var i = 0; i < 8; i++) {
+            pinMode(ROWS[i], OUTPUT);
+            digitalWrite(ROWS[i], HIGH);  
+        }
+    }
+    return arduino;
+}
+
 $(function(){
     // arduino.jsインストール済みか
     if(!document.arduino){
         alert("arduino.js Add-onがインストールされていません");
     }else{
         setup();
+        
+        // html
+        $('#devPort').val(DEV_PORT);
         
         var mtx = $('#matrix');
         for(var i = 0; i < 8; i++){
@@ -93,3 +100,13 @@ $(function(){
         
     };
 });
+
+function changeDevicePort(){
+    var arduino = document.arduino;
+    arduino.close();
+    try{
+        arduino.open($('#devPort').val());
+    }catch(e){
+        alert('Please try different ports.');
+    }
+}

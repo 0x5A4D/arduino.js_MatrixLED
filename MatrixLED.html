@@ -7,6 +7,7 @@
     body {
         background-color: black;
         color: #f0f0f0;
+        font-family: Arial;
     }
     h1 {
         text-decoration: underline;
@@ -14,6 +15,12 @@
     #matrix {
         font-size: 30px;
         border: 2px solid #fff;
+        font-family: monospace;
+    }
+    #settings {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
     }
     </style>
     <script src="js/jquery-1.11.0.min.js"></script>
@@ -22,5 +29,10 @@
 <body>
     <h1>Arduino × Dot Matrix LED</h1>
     <table id="matrix"></table>
+    <form id="settings">
+        Arduino Port:
+        <input type="text" id="devPort">
+        <input type="button" value="Change" onclick="changeDevicePort()">
+    </form>
 </body>
 </html>
