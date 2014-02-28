@@ -72,16 +72,15 @@ function setup(){
             digitalWrite(ROWS[i], HIGH);  
         }
     }
-    return arduino;
 }
 
 $(function(){
     // arduino.jsインストール済みか
     if(!document.arduino){
-        alert("arduino.js Add-onがインストールされていません");
+        alert("arduino.js Add-on is not installed.");
     }else{
         setup();
-        
+    
         // html
         $('#devPort').val(DEV_PORT);
         
@@ -97,8 +96,8 @@ $(function(){
                 );
             }
         }
-        
     };
+    
 });
 
 function changeDevicePort(){
