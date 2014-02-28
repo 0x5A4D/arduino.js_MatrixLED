@@ -51,7 +51,7 @@ function setup(){
 function enter(id){
     var row = id[1];
     var col = id[3];
-    console.log('enter: ('+row+','+col+')');
+    //console.log('enter: ('+row+','+col+')');
     
     $('#'+id).css('color','red');
     
@@ -62,7 +62,7 @@ function enter(id){
 function leave(id){
     var row = id[1];
     var col = id[3];
-    console.log('leave: ('+row+','+col+')');
+    //console.log('leave: ('+row+','+col+')');
     
     $('#'+id).css('color','inherit');
     
