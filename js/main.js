@@ -4,7 +4,7 @@
  * http://opensource.org/licenses/MIT
  */
 
-// Arduinoが接続されているデバイスポート
+// Device Port
 var DEV_PORT = "COM3";
 
 // 縦(アノード)
@@ -60,52 +60,49 @@ function leave(id){
 }
 
 function setup(){
-    var arduino = document.arduino;
-    arduino.open(DEV_PORT);
-    with(arduino){
-        for (var i = 0; i < 8; i++) {
-            pinMode(COLUMNS[i], OUTPUT);
-            digitalWrite(COLUMNS[i], LOW);
+    try{
+        with(document.arduino){
+            open(DEV_PORT);
+            for (var i = 0; i < 8; i++) {
+                pinMode(COLUMNS[i], OUTPUT);
+                digitalWrite(COLUMNS[i], LOW);
+            }
+            for (var i = 0; i < 8; i++) {
+                pinMode(ROWS[i], OUTPUT);
+                digitalWrite(ROWS[i], HIGH);  
+            }
         }
-        for (var i = 0; i < 8; i++) {
-            pinMode(ROWS[i], OUTPUT);
-            digitalWrite(ROWS[i], HIGH);  
-        }
+    }catch(e){
+        alert('Please try different ports.');
     }
 }
 
 $(function(){
+    // html
+    $('#devPort').val(DEV_PORT);
+
+    var mtx = $('#matrix');
+    for(var i = 0; i < 8; i++){
+        mtx.append('<tr id="row' + i + '"></tr>');
+        var row = $('#row'+i);
+        for(var j = 0; j < 8; j++){
+            row.append('<td id="r' + i + 'c' + j + '">●</td>');
+            $('#r' + i + 'c' + j).hover(
+                function(){enter(this.id);},
+                function(){leave(this.id);}
+            );
+        }
+    }
+    
     // arduino.jsインストール済みか
     if(!document.arduino){
         alert("arduino.js Add-on is not installed.");
     }else{
         setup();
-    
-        // html
-        $('#devPort').val(DEV_PORT);
-        
-        var mtx = $('#matrix');
-        for(var i = 0; i < 8; i++){
-            mtx.append('<tr id="row' + i + '"></tr>');
-            var row = $('#row'+i);
-            for(var j = 0; j < 8; j++){
-                row.append('<td id="r' + i + 'c' + j + '">●</td>');
-                $('#r' + i + 'c' + j).hover(
-                    function(){enter(this.id);},
-                    function(){leave(this.id);}
-                );
-            }
-        }
-    };
-    
+    }
 });
 
 function changeDevicePort(){
-    var arduino = document.arduino;
-    arduino.close();
-    try{
-        arduino.open($('#devPort').val());
-    }catch(e){
-        alert('Please try different ports.');
-    }
+    DEV_PORT = $('#devPort').val();
+    setup();
 }
