@@ -73,7 +73,7 @@ function setup(){
             }
         }
     }catch(e){
-        alert('Please try different ports.');
+        alert('Connection failed!');
     }
 }
 
@@ -96,7 +96,7 @@ $(function(){
     
     // arduino.jsインストール済みか
     if(!document.arduino){
-        alert("arduino.js Add-on is not installed.");
+        alert("arduino.js for webpages add-on is not installed.");
     }else{
         setup();
     }
